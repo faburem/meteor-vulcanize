@@ -27,7 +27,17 @@ function log() {
  * Get script tag with specified path.
  */
 function scriptTag(path) {
-  return '<script src="' + path + '"></script>';
+ var script = "<script>\
+  var webComponentsSupported = ('registerElement' in document\
+   && 'import' in document.createElement('link')\
+   && 'content' in document.createElement('template'));\
+  if (!webComponentsSupported) {\
+     var script = document.createElement('script');\
+     script.src = '"+path+"';\
+     document.head.appendChild(script);\
+  }\
+  </script>";
+return script;
 }
 
 /**
